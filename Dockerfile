@@ -4,6 +4,7 @@ WORKDIR /data
 ADD server.js /data/server.js
 ADD package.json /data/package.json
 ADD scripts /data/scripts
+RUN npm install -g forever
 RUN npm install
 
 EXPOSE 1337

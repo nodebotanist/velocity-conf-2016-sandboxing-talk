@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "forever start server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/nodebotanist/velocity-conf-2016-sandboxing-talk#readme",
   "dependencies": {
     "detective": "^4.3.1",
+    "express": "^4.14.0",
     "restify": "^4.1.1",
     "sandboxjs": "^2.6.1",
     "tripwire": "^4.1.0",
