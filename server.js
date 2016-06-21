@@ -6,14 +6,16 @@ const express = require('express')
 const tripwire = require('tripwire')
 const webtask = require('webtask-runtime')
 const dotenv = require('dotenv').load()
+const expressJWT = require('express-jwt')
 const installModules = require('./installModules')
+
 
 const app = express();
 
-app.use('express-jwt', { 
+app.use(expressJWT({ 
   secret: process.env.CLIENT_SECRET,
   issuer: 'nodebotanist'
-})
+}))
 
 //this route runs a piece of code that's already on the server
 app.get('/run', function (req, res) {
