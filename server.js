@@ -5,16 +5,20 @@ const path = require('path')
 const express = require('express')
 const tripwire = require('tripwire')
 const webtask = require('webtask-runtime')
+const dotenv = require('dotenv').load()
 const installModules = require('./installModules')
 
 const app = express();
 
-app.use('express-jwt', { secret: process.env.CLIENT_SECRET });
+app.use('express-jwt', { 
+  secret: process.env.CLIENT_SECRET,
+  issuer: 'nodebotanist'
+})
 
 //this route runs a piece of code that's already on the server
-app.get('/run/:name', function (req, res) {
-  console.log(req.params.name)
-  const code = fs.readFileSync(path.join(__dirname, 'scripts', req.params.name + '.js'), 'utf8');
+app.get('/run', function (req, res) {
+  console.log(req.query.name)
+  const code = fs.readFileSync(path.join(__dirname, 'scripts', req.query.name + '.js'), 'utf8');
   webtask.compile(code, {installModules}, function(err, webtaskFunction){
     if(err){
       res.status(400)
@@ -32,8 +36,20 @@ app.get('/run/:name', function (req, res) {
       })
     }
   })
-});
+})
+
+app.post('/task', function(req, res){
+
+})
+
+app.put('/task', function(req, res){
+
+})
+
+app.delete('/task', function(req, res){
+
+})
 
 app.listen(1337, function () {
-  console.log('Example app listening on port 8080!');
+  console.log('appliance listening on port 1337!');
 });
