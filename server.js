@@ -7,35 +7,34 @@ const tripwire = require('tripwire')
 const webtask = require('webtask-runtime')
 const dotenv = require('dotenv').load()
 const expressJWT = require('express-jwt')
+const redis = require('redis')
+
 const installModules = require('./installModules')
 
-
-const app = express();
+const app = express()
+const client = redis.createClient('http://redis:6379')
 
 app.use(expressJWT({ 
   secret: process.env.CLIENT_SECRET,
   issuer: 'nodebotanist'
 }))
 
+let existing = []
+
+client.keys('*', function(err, keys){
+  console.log(keys)
+})
+
 //this route runs a piece of code that's already on the server
 app.get('/run', function (req, res) {
-  console.log(req.query.name)
-  const code = fs.readFileSync(path.join(__dirname, 'scripts', req.query.name + '.js'), 'utf8');
+  let name = req.query.name
+  const code = fs.readFileSync(path.join(__dirname, 'scripts', name + '.js'), 'utf8');
   webtask.compile(code, {installModules}, function(err, webtaskFunction){
     if(err){
       res.status(400)
       res.send(err)
     } else {
-      webtask.simulate(webtaskFunction, {}, function(result){
-        if(result.error){
-          console.log(result)
-          res.status(400)
-          res.send(result)
-        } else {
-          res.set(result.headers)
-          res.send(result.payload)
-        }
-      })
+      simulateTask(webtaskFunction, res)
     }
   })
 })
@@ -52,6 +51,19 @@ app.delete('/task', function(req, res){
 
 })
 
+function simulateTask(webtaskFunction, res){
+  webtask.simulate(webtaskFunction, {}, function(result){
+    if(result.error){
+      console.log(result)
+      res.status(400)
+      res.send(result)
+    } else {
+      res.set(result.headers)
+      res.send(result.payload)
+    }
+  })
+}
+
 app.listen(1337, function () {
   console.log('appliance listening on port 1337!');
-});
+})

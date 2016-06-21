@@ -6,5 +6,7 @@ services:
      - 1337:1337
     depends_on:
      - redis
+    links:
+     - redis:redis
   redis:
     image: redis
