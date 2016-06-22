@@ -5,9 +5,3 @@ services:
     image: velocity:1.0
     ports:
      - 1337:1337
-    depends_on:
-     - redis
-    links:
-     - redis:redis
-  redis:
-    image: redis
