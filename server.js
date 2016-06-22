@@ -7,12 +7,10 @@ const tripwire = require('tripwire')
 const webtask = require('webtask-runtime')
 const dotenv = require('dotenv').load()
 const expressJWT = require('express-jwt')
-const redis = require('redis')
 
 const installModules = require('./installModules')
 
 const app = express()
-const client = redis.createClient('http://redis:6379')
 
 app.use(expressJWT({ 
   secret: process.env.CLIENT_SECRET,
@@ -21,12 +19,8 @@ app.use(expressJWT({
 
 let existing = []
 
-client.keys('*', function(err, keys){
-  console.log(keys)
-})
-
 //this route runs a piece of code that's already on the server
-app.get('/run', function (req, res) {
+app.get('/task', function (req, res) {
   let name = req.query.name
   const code = fs.readFileSync(path.join(__dirname, 'scripts', name + '.js'), 'utf8');
   webtask.compile(code, {installModules}, function(err, webtaskFunction){

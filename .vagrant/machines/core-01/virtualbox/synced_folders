@@ -1,0 +1,1 @@
+{"nfs":{"core":{"id":"core","nfs":true,"mount_options":["nolock,vers=3,udp"],"guestpath":"/home/core/share","hostpath":"/Users/nodebotanist/Dev/work/velocity-conf-2016-sandboxing-talk","disabled":false,"type":"nfs","__vagrantfile":true,"map_uid":501,"map_gid":20,"nfs_udp":true,"nfs_version":3,"uuid":"262417885"}}}
