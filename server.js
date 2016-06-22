@@ -6,16 +6,10 @@ const express = require('express')
 const tripwire = require('tripwire')
 const webtask = require('webtask-runtime')
 const dotenv = require('dotenv').load()
-const expressJWT = require('express-jwt')
 
 const installModules = require('./installModules')
 
 const app = express()
-
-app.use(expressJWT({ 
-  secret: process.env.CLIENT_SECRET,
-  issuer: 'nodebotanist'
-}))
 
 let existing = []
 
