@@ -81,7 +81,7 @@ We want users to run their code in an environment where even if they manage to w
 
 * Each container is separated-- by default no file system access shared between containers
 * Each container runs a REST API to handle bits of code
-* Need a db? Extra bits and pieces? Docker-compose makes this so much easier
+* Need a db? Extra bits and pieces? Docker images and networking makes this so much easier
 
 ---
 
